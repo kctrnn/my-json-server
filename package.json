@@ -1,0 +1,22 @@
+{
+  "name": "my-json-server",
+  "version": "1.0.0",
+  "description": "A full fake REST API with json-server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kctrnn/my-json-server.git"
+  },
+  "author": "Kim Chan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kctrnn/my-json-server/issues"
+  },
+  "homepage": "https://github.com/kctrnn/my-json-server#readme",
+  "devDependencies": {
+    "json-server": "^0.17.2"
+  }
+}

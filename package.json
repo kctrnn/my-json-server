@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/kctrnn/my-json-server#readme",
   "devDependencies": {
-    "json-server": "^0.17.2",
     "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "json-server": "^0.17.2"
   }
 }

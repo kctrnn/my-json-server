@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const jsonServer = require('json-server');
 const queryString = require('query-string');
 
@@ -5,13 +7,10 @@ const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 
+const protectedRoute = require('./middlewares/protected-route');
+
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
-
-// Add custom routes before JSON Server router
-server.get('/echo', (req, res) => {
-  res.jsonp(req.query);
-});
 
 // To handle POST, PUT and PATCH you need to use a body-parser
 // You can use the one used by JSON Server
@@ -52,6 +51,9 @@ router.render = (req, res) => {
 
   res.jsonp(res.locals.data);
 };
+
+// custom routes
+server.use('/api/private', protectedRoute, router);
 
 server.use(
   jsonServer.rewriter({

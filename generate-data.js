@@ -1,34 +1,57 @@
 const fs = require('fs');
 const casual = require('casual');
+const uniqid = require('uniqid');
 
-const { randomDataList } = require('./utils');
+const { meetupList, photoList } = require('./mock-data');
 
 const randomStudentList = (n) => {
-  const newStudent = {
-    name: casual.full_name,
-    age: casual.integer(18, 27),
-    mark: Number.parseFloat(casual.double(3, 10).toFixed(1)),
-    gender: ['male', 'female'][casual.integer(1, 100) % 2],
-    city: ['hcm', 'hn', 'dn', 'ha', 'pt'][casual.integer(1, 100) % 5],
-  };
+  if (n <= 0) return [];
 
-  return randomDataList(n, newStudent);
+  const studentList = [];
+
+  Array.from(new Array(n)).forEach(() => {
+    const newStudent = {
+      id: uniqid(),
+      name: casual.full_name,
+      age: casual.integer(18, 27),
+      mark: Number.parseFloat(casual.double(3, 10).toFixed(1)),
+      gender: ['male', 'female'][casual.integer(1, 100) % 2],
+      city: ['hcm', 'hn', 'dn', 'ha', 'pt'][casual.integer(1, 100) % 5],
+
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    studentList.push(newStudent);
+  });
+
+  return studentList;
 };
 
 const randomPostList = (n) => {
-  const newPost = {
-    title: casual.title,
-    author: casual.full_name,
-    description: casual.words(50),
-    imageUrl: `https://picsum.photos/id/${casual.integer(1, 1000)}/1368/400`,
-  };
+  if (n <= 0) return [];
 
-  return randomDataList(n, newPost);
+  const postList = [];
+
+  Array.from(new Array(n)).forEach(() => {
+    const newPost = {
+      id: uniqid(),
+      title: casual.title,
+      author: casual.full_name,
+      description: casual.words(50),
+      imageUrl: `https://picsum.photos/id/${casual.integer(1, 1000)}/1368/400`,
+
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    postList.push(newPost);
+  });
+
+  return postList;
 };
 
 const cityList = [];
-const photoList = [];
-const meetupList = [];
 const categoryList = [];
 const productList = [];
 const userList = [];

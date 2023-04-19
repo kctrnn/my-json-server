@@ -5,7 +5,9 @@ const queryString = require('query-string');
 
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults({
+  static: './public',
+});
 
 const authController = require('./controllers/auth-controller');
 const uploadController = require('./controllers/upload-controller');

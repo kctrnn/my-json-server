@@ -8,9 +8,20 @@ const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 
 const authController = require('./controllers/auth-controller');
+const uploadController = require('./controllers/upload-controller');
 const protectedRoute = require('./middlewares/protected-route');
+const {
+  uploadSingle,
+  validateFormData,
+  withThumbnail,
+} = require('./middlewares/upload-middleware');
 
 const PORT = process.env.PORT || 3000;
+
+const PATHS = {
+  IMAGES_FOLDER: './public/images',
+  THUMBNAILS_FOLDER: './public/thumbnails',
+};
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
@@ -59,6 +70,21 @@ router.render = (req, res) => {
 server.post('/api/login', authController.login);
 server.post('/api/register', authController.register);
 server.get('/api/profile', protectedRoute, authController.getProfile);
+
+server.post(
+  '/api/upload-image',
+  validateFormData,
+  uploadSingle(PATHS.IMAGES_FOLDER, 'image'),
+  uploadController.uploadImage
+);
+
+server.use(
+  '/api/with-thumbnail',
+  validateFormData,
+  uploadSingle(PATHS.THUMBNAILS_FOLDER, 'image'),
+  withThumbnail,
+  router
+);
 
 // private routes
 server.use('/api/private', protectedRoute, router);

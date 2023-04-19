@@ -1,7 +1,7 @@
 const axiosClient = require('./axios-client');
 
 const config = {
-  baseURL: process.env.API_URL || 'http://localhost:3000/api',
+  baseURL: `${process.env.STATIC_URL}/api` || 'http://localhost:3000/api',
 };
 
 const userApi = {

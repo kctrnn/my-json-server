@@ -7,7 +7,10 @@ const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 
+const authController = require('./controllers/auth-controller');
 const protectedRoute = require('./middlewares/protected-route');
+
+const PORT = process.env.PORT || 3000;
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
@@ -53,8 +56,15 @@ router.render = (req, res) => {
 };
 
 // custom routes
+server.post('/api/login', authController.login);
+server.post('/api/register', authController.register);
+server.get('/api/profile', protectedRoute, authController.getProfile);
+
+// private routes
 server.use('/api/private', protectedRoute, router);
 
+// /api/posts → /posts
+// /api/posts/1 → /posts/1
 server.use(
   jsonServer.rewriter({
     '/api/*': '/$1',
@@ -63,6 +73,6 @@ server.use(
 
 // Use default router
 server.use(router);
-server.listen(3000, () => {
-  console.log('JSON Server is running');
+server.listen(PORT, () => {
+  console.log('JSON Server is running at port', PORT);
 });
